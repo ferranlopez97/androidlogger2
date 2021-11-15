@@ -1,4 +1,4 @@
-package ifac.ferran.logger2;
+package ifac.flopez.logger2;
 
 import androidx.appcompat.app.AppCompatActivity;
 

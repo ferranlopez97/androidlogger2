@@ -1,4 +1,4 @@
-package ifac.ferran.lib;
+package ifac.flopez.logger;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

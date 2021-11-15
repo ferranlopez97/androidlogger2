@@ -1,10 +1,9 @@
-package ifac.ferran.lib;
+package ifac.flopez.logger;
 
 import android.os.Looper;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Log {
 

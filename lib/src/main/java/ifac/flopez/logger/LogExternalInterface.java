@@ -1,4 +1,4 @@
-package ifac.ferran.lib;
+package ifac.flopez.logger;
 
 import android.content.Context;
 
