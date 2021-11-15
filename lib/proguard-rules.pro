@@ -24,7 +24,7 @@
 -renamesourcefileattribute SourceFile
 -keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,EnclosingMethod
 
--keep class ifac.ferran.lib.Log{
+-keep class ifac.ferran.lib.Log {
     public static <methods>;
     private static <methods>;
     private static <fields>;
