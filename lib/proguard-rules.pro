@@ -32,3 +32,7 @@
     private <fields>;
     private <init>();
 }
+
+-keep public interface ifac.flopez.logger.Log$ZipCallback {
+    *;
+}

@@ -85,21 +85,23 @@ public class Log {
     }
 
 
-    public static File zipLogs() {
-        while (instance.logThread.pendingToWrite()) {
+    public static interface ZipCallback {
+        void onSuccess(File f);
+        void onError(String e);
+    }
 
-        }
-        ZipManager zipManager = new ZipManager();
-        String[] tempFiles  =instance.logsPath.list();
-        ArrayList<String> logFiles = new ArrayList<>();
-        if (tempFiles != null) {
-            for(String s: tempFiles) {
-                if (s.endsWith(".log")) {
-                    logFiles.add(instance.logsPath + "/" + s);
-                }
+    public static void zipLogs(ZipCallback callback) {
+        new ZipThread(instance.logsPath, new ZipThread.ZipThreadCallback() {
+            @Override
+            public void onSuccess(File zippedFile) {
+                callback.onSuccess(zippedFile);
             }
-        }
-        return zipManager.zip(logFiles, instance.logsPath + "/" + DateUtils.getCurrentDate("dd_MM_yyy_HH_mm") + ".zip");
+
+            @Override
+            public void onError(String error) {
+                callback.onError(error);
+            }
+        }).start();
     }
 
 }
