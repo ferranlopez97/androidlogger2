@@ -91,6 +91,12 @@ public class Log {
     }
 
     public static void zipLogs(ZipCallback callback) {
+        String fileName = "Log";
+        if (instance.externalInterface != null) {
+            if (instance.externalInterface.getZipFileName() != null && !instance.externalInterface.getZipFileName().isEmpty()) {
+                fileName = instance.externalInterface.getZipFileName();
+            }
+        }
         new ZipThread(instance.logsPath, new ZipThread.ZipThreadCallback() {
             @Override
             public void onSuccess(File zippedFile) {
@@ -101,7 +107,7 @@ public class Log {
             public void onError(String error) {
                 callback.onError(error);
             }
-        }).start();
+        }, fileName).start();
     }
 
 }

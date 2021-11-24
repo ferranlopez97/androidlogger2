@@ -12,8 +12,10 @@ public class ZipThread extends Thread {
 
     private final ZipThreadCallback callback;
     private final File path;
+    private final String fileName;
 
-    public ZipThread(File path, ZipThreadCallback callback) {
+    public ZipThread(File path, ZipThreadCallback callback, String zipName) {
+        this.fileName = zipName;
         this.path = path;
         this.callback = callback;
     }
@@ -37,7 +39,7 @@ public class ZipThread extends Thread {
                     }
                 }
             }
-            File zippedFile = zipManager.zip(logFiles, path + "/TaxiIqnos_" + DateUtils.getCurrentDate("dd_MM_yyy_HH_mm") + ".zip");
+            File zippedFile = zipManager.zip(logFiles, path + "/" + this.fileName + "_" + DateUtils.getCurrentDate("dd_MM_yyy_HH_mm") + ".zip");
             this.callback.onSuccess(zippedFile);
         } catch (Exception e) {
             Log.d(TAG, "run: " + e);
