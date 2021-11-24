@@ -34,6 +34,11 @@
     private <init>();
 }
 
+-keep public interface ifac.flopez.logger.LogExternalInterface {
+    *;
+    <methods>;
+}
+
 -keep public interface ifac.flopez.logger.Log$ZipCallback {
     *;
     <methods>;
