@@ -35,14 +35,29 @@ public class Log {
     }
 
     public static void d(String TAG, String message){
-        instance.logThread.write(formatData("DEBUG", message, TAG, false));
+        instance.logThread.write(formatData("D/", message, TAG, false));
         if (instance.isDebug) {
             android.util.Log.d(TAG, message);
         }
     }
 
+
+    public static void e(String TAG, String message){
+        instance.logThread.write(formatData("ERROR!!", message, TAG, false));
+        if (instance.isDebug) {
+            android.util.Log.e(TAG, message);
+        }
+    }
+
+    public static void w(String TAG, String message){
+        instance.logThread.write(formatData("W/", message, TAG, false));
+        if (instance.isDebug) {
+            android.util.Log.e(TAG, message);
+        }
+    }
+
     public static void d(String TAG, String message, boolean showFrom){
-        instance.logThread.write(formatData("DEBUG", message, TAG, showFrom));
+        instance.logThread.write(formatData("D/", message, TAG, showFrom));
         if (instance.isDebug) {
             android.util.Log.d(TAG, message);
         }
