@@ -3,6 +3,9 @@ package ifac.flopez.logger;
 import android.os.Looper;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class Log {
@@ -42,6 +45,14 @@ public class Log {
     }
 
 
+    public static void d(String TAG, String message, Throwable tr){
+        instance.logThread.write(formatData("D/", message + " " + getStackTraceString(tr), TAG, false));
+        if (instance.isDebug) {
+            android.util.Log.d(TAG, message);
+        }
+    }
+
+
     public static void e(String TAG, String message){
         instance.logThread.write(formatData("ERROR!!", message, TAG, false));
         if (instance.isDebug) {
@@ -49,8 +60,22 @@ public class Log {
         }
     }
 
+    public static void e(String TAG, String message, Throwable tr){
+        instance.logThread.write(formatData("ERROR!!", message + " " + getStackTraceString(tr), TAG, false));
+        if (instance.isDebug) {
+            android.util.Log.e(TAG, message);
+        }
+    }
+
     public static void w(String TAG, String message){
         instance.logThread.write(formatData("W/", message, TAG, false));
+        if (instance.isDebug) {
+            android.util.Log.e(TAG, message);
+        }
+    }
+
+    public static void w(String TAG, String message, Throwable tr){
+        instance.logThread.write(formatData("W/", message + " " + getStackTraceString(tr), TAG, false));
         if (instance.isDebug) {
             android.util.Log.e(TAG, message);
         }
@@ -123,6 +148,28 @@ public class Log {
                 callback.onError(error);
             }
         }, fileName).start();
+    }
+
+    private static String getStackTraceString(Throwable tr) {
+        if (tr == null) {
+            return "";
+        }
+
+        // This is to reduce the amount of log spew that apps do in the non-error
+        // condition of the network being unavailable.
+        Throwable t = tr;
+        while (t != null) {
+            if (t instanceof UnknownHostException) {
+                return "";
+            }
+            t = t.getCause();
+        }
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        tr.printStackTrace(pw);
+        pw.flush();
+        return sw.toString();
     }
 
 }
