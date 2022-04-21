@@ -54,14 +54,14 @@ public class Log {
 
 
     public static void e(String TAG, String message){
-        instance.logThread.write(formatData("ERROR!!", message, TAG, false));
+        instance.logThread.write(formatData("E/", message, TAG, false));
         if (instance.isDebug) {
             android.util.Log.e(TAG, message);
         }
     }
 
     public static void e(String TAG, String message, Throwable tr){
-        instance.logThread.write(formatData("ERROR!!", message + " " + getStackTraceString(tr), TAG, false));
+        instance.logThread.write(formatData("E/", message + " " + getStackTraceString(tr), TAG, false));
         if (instance.isDebug) {
             android.util.Log.e(TAG, message);
         }
