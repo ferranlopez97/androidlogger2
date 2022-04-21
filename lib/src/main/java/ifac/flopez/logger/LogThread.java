@@ -22,7 +22,12 @@ public class LogThread extends Thread {
     }
 
     private void initFile() {
+        android.util.Log.d(TAG, "initFile()");
         try {
+            String tempName = DateUtils.getCurrentDate(null);
+            if (!tempName.equals(currentFileName)) {
+                currentFileName = tempName;
+            }
             File f = new File(path + "/" + currentFileName + ".log");
             fileWriter = new FileWriter(f.getAbsolutePath(), true);
         } catch (Exception e) {
@@ -36,7 +41,7 @@ public class LogThread extends Thread {
             while (true) {
                 String tempName = DateUtils.getCurrentDate(null);
                 if (!tempName.equals(currentFileName)) {
-                    currentFileName = tempName;
+                    initFile();
                 }
                 new File(path).mkdir();
                 if (!messages.isEmpty()) {
