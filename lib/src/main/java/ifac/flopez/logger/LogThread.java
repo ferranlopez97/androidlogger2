@@ -1,6 +1,8 @@
 package ifac.flopez.logger;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -14,7 +16,7 @@ public class LogThread extends Thread {
 
     private String currentFileName;
     private String path;
-    private FileWriter fileWriter;
+    BufferedOutputStream bufferedOutputStream;
 
     public LogThread(String path) {
         this.path = path;
@@ -29,7 +31,8 @@ public class LogThread extends Thread {
                 currentFileName = tempName;
             }
             File f = new File(path + "/" + currentFileName + ".log");
-            fileWriter = new FileWriter(f.getAbsolutePath(), true);
+            //fileWriter = new FileWriter(f.getAbsolutePath(), true);
+            bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
         } catch (Exception e) {
             android.util.Log.d(TAG, "init: " + e);
         }
@@ -45,8 +48,11 @@ public class LogThread extends Thread {
                 }
                 new File(path).mkdir();
                 if (!messages.isEmpty()) {
-                    if (fileWriter != null) {
-                        fileWriter.write(messages.remove());
+                    if (bufferedOutputStream != null) {
+                        String msg = messages.poll();
+                        if (msg != null) {
+                            bufferedOutputStream.write(msg.getBytes(), 0, msg.getBytes().length);
+                        }
                     } else {
                         initFile();
                     }
@@ -62,7 +68,8 @@ public class LogThread extends Thread {
 
     private void closeFile() {
         try {
-            fileWriter.close();
+            bufferedOutputStream.flush();
+            bufferedOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
