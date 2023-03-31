@@ -32,7 +32,7 @@ public class LogThread extends Thread {
             }
             File f = new File(path + "/" + currentFileName + ".log");
             //fileWriter = new FileWriter(f.getAbsolutePath(), true);
-            bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f));
+            bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(f, true));
         } catch (Exception e) {
             android.util.Log.d(TAG, "init: " + e);
         }
