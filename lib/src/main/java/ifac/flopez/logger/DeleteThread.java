@@ -22,16 +22,18 @@ public class DeleteThread extends Thread {
     @Override
     public void run() {
         if (path.list() != null) {
-            ArrayList<String> files = (ArrayList<String>) Arrays.asList(path.list());
-            for (String s: files) {
-                File file = new File(path + "/" + s);
-                if (file.exists()) {
-                    if (deleteFile(file)) {
-                        file.delete();
+            String[] files = path.list();
+            if (files != null) {
+                for (String s: files) {
+                    File file = new File(path + "/" + s);
+                    if (file.exists()) {
+                        if (deleteFile(file)) {
+                            file.delete();
+                        }
                     }
                 }
+                callback.onSuccess();
             }
-            callback.onSuccess();
         }
         callback.onError();
     }
