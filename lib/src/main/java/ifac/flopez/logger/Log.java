@@ -20,6 +20,8 @@ public class Log {
 
     private static final String BLANK_SPACE = " ";
 
+    public static long file_expiration_time;
+
     private Log() {}
 
     private LogThread logThread;
@@ -101,6 +103,11 @@ public class Log {
         }
     }
 
+    public static void deleteLogs(DeleteLogsCallback deleteLogsCallback) {
+        DeleteThread deleteThread = new DeleteThread(instance.logsPath, deleteLogsCallback);
+        deleteThread.start();
+    }
+
 
     private static String formatData(String logType, String content, String tag, boolean showFrom) {
         StringBuilder sb = new StringBuilder()
@@ -128,6 +135,11 @@ public class Log {
     public static interface ZipCallback {
         void onSuccess(File f);
         void onError(String e);
+    }
+
+    public interface DeleteLogsCallback {
+        void onSuccess();
+        void onError();
     }
 
     public static void zipLogs(ZipCallback callback) {
@@ -172,4 +184,7 @@ public class Log {
         return sw.toString();
     }
 
+    public static void setFile_expiration_time(long file_expiration_time) {
+        Log.file_expiration_time = file_expiration_time;
+    }
 }

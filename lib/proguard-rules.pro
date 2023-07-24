@@ -44,6 +44,11 @@
     <methods>;
 }
 
+-keep public interface ifac.flopez.logger.Log$DeleteLogsCallback {
+    *;
+    <methods>;
+}
+
 # Preserve all native method names and the names of their classes.
 -keepclassmembernames class * {
     java.lang.Class class$(java.lang.String);
