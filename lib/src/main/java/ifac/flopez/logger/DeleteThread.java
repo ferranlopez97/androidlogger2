@@ -42,7 +42,7 @@ public class DeleteThread extends Thread {
     public boolean deleteFile(File file) {
         String name = file.getName().substring(0, file.getName().indexOf("."));
         try {
-            Date date = new SimpleDateFormat("dd-MM-yyyy").parse(name);
+            Date date = new SimpleDateFormat("dd_MM_yyyy").parse(name);
             Date currentDate = new Date(System.currentTimeMillis());
 
             long diffInMillies = Math.abs(date.getTime() - currentDate.getTime());
