@@ -33,6 +33,7 @@ public class DeleteThread extends Thread {
                     }
                 }
                 callback.onSuccess();
+                return;
             }
         }
         callback.onError();
