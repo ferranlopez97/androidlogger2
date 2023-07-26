@@ -71,8 +71,11 @@ public class LogThread extends Thread {
 
     public void closeFile() {
         try {
-            bufferedOutputStream.flush();
-            bufferedOutputStream.close();
+            if (bufferedOutputStream != null) {
+                bufferedOutputStream.flush();
+                bufferedOutputStream.close();
+                bufferedOutputStream = null;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
