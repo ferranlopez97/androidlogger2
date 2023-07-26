@@ -35,6 +35,9 @@ public class Log {
         instance.isDebug = isDebug;
         instance.rootFile = logExternalInterface.getContext().getFilesDir();
         instance.logsPath = new File(instance.rootFile + "/logs");
+    }
+
+    public static void start() {
         instance.logThread = new LogThread(instance.logsPath.getAbsolutePath());
         instance.logThread.start();
     }
