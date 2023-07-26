@@ -66,7 +66,7 @@ public class LogThread extends Thread {
         }
     }
 
-    private void closeFile() {
+    public void closeFile() {
         try {
             bufferedOutputStream.flush();
             bufferedOutputStream.close();

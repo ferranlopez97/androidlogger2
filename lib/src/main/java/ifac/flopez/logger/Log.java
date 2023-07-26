@@ -198,4 +198,8 @@ public class Log {
     public static void setFile_expiration_time(long file_expiration_time) {
         Log.file_expiration_time = file_expiration_time;
     }
+
+    public static void close() {
+        instance.logThread.closeFile();
+    }
 }
