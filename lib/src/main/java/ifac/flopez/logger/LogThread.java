@@ -56,6 +56,9 @@ public class LogThread extends Thread {
                     } else {
                         initFile();
                     }
+                } else {
+                    closeFile();
+                    bufferedOutputStream = null;
                 }
             }
         } catch (Exception e) {
