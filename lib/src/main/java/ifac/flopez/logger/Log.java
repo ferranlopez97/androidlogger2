@@ -39,6 +39,14 @@ public class Log {
         instance.logThread.start();
     }
 
+    public static void setFilesPath(String path) {
+        instance.logsPath = new File(instance.rootFile + "/" + path);
+    }
+
+    public static File getLogsPath() {
+        return instance.logsPath;
+    }
+
     public static void d(String TAG, String message){
         instance.logThread.write(formatData("D/", message, TAG, false));
         if (instance.isDebug) {
