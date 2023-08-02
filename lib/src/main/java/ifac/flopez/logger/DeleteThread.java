@@ -41,23 +41,25 @@ public class DeleteThread extends Thread {
 
 
     public boolean deleteFile(File file) {
-        String name = file.getName().substring(0, file.getName().indexOf("."));
-        try {
-            Date date = new SimpleDateFormat("dd_MM_yyyy").parse(name);
-            Date currentDate = new Date(System.currentTimeMillis());
+        if (file.getName().contains(".log")) {
+            String name = file.getName().substring(0, file.getName().indexOf("."));
+            try {
+                Date date = new SimpleDateFormat("dd_MM_yyyy").parse(name);
+                Date currentDate = new Date(System.currentTimeMillis());
 
-            long diffInMillies = Math.abs(date.getTime() - currentDate.getTime());
+                long diffInMillies = Math.abs(date.getTime() - currentDate.getTime());
 
-            android.util.Log.d("LOG", "diffInMillies=" + diffInMillies);
-            if (diffInMillies >= Log.file_expiration_time) {
-                android.util.Log.d("LOG", "name=" + name + " true");
-                return true;
+                android.util.Log.d("LOG", "diffInMillies=" + diffInMillies);
+                if (diffInMillies >= Log.file_expiration_time) {
+                    android.util.Log.d("LOG", "name=" + name + " true");
+                    return true;
+                }
+                android.util.Log.d("LOG", "name=" + name + " false");
+                return false;
+            } catch (ParseException e) {
+
+                throw new RuntimeException(e);
             }
-            android.util.Log.d("LOG", "name=" + name + " false");
-            return false;
-        } catch (ParseException e) {
-
-            throw new RuntimeException(e);
-        }
+        } else return file.getName().contains(".zip");
     }
 }
