@@ -1,6 +1,9 @@
 package ifac.flopez.logger;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DeleteThread extends Thread {
 
+    private static final String TAG = "DeleteThread";
 
     private final File path;
     private final Log.DeleteLogsCallback callback;
@@ -41,25 +45,18 @@ public class DeleteThread extends Thread {
 
 
     public boolean deleteFile(File file) {
-        if (file.getName().contains(".log")) {
-            String name = file.getName().substring(0, file.getName().indexOf("."));
-            try {
-                Date date = new SimpleDateFormat("dd_MM_yyyy").parse(name);
-                Date currentDate = new Date(System.currentTimeMillis());
-
-                long diffInMillies = Math.abs(date.getTime() - currentDate.getTime());
-
-                android.util.Log.d("LOG", "diffInMillies=" + diffInMillies);
-                if (diffInMillies >= Log.file_expiration_time) {
-                    android.util.Log.d("LOG", "name=" + name + " true");
-                    return true;
-                }
-                android.util.Log.d("LOG", "name=" + name + " false");
-                return false;
-            } catch (ParseException e) {
-
-                throw new RuntimeException(e);
+        try {
+            long lastModified = file.lastModified();
+            android.util.Log.d(TAG, "lastModified=" + lastModified);
+            long diff = System.currentTimeMillis() - lastModified;
+            android.util.Log.d(TAG, "diff=" + diff);
+            if (diff >= Log.file_expiration_time) {
+                android.util.Log.d(TAG, "diff greater than configured time for file " + file.getName());
+                return true;
             }
-        } else return file.getName().contains(".zip");
+        } catch (Exception e) {
+            android.util.Log.d(TAG, "" + e);
+        }
+        return false;
     }
 }
